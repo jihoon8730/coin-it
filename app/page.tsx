@@ -1,7 +1,7 @@
 export default function Home() {
   return (
-    <div>
-      <h1>Hello Next.js cryptos! HOME</h1>
+    <div className="body-layout">
+      <h1 className="text-3xl-bold">코인</h1>
     </div>
   );
 }

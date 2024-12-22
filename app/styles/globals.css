@@ -71,10 +71,13 @@
 }
 
 @layer components {
-    .text-large {
-        @apply text-xl font-bold;
+    .text-3xl-bold {
+        @apply text-3xl font-bold;
     }
-    .text-middle {
+    .text-large {
         @apply text-lg font-bold;
+    }
+    .body-layout {
+        @apply lg:max-w-[1040px] mx-auto px-4 lg:px-8;
     }
 }
