@@ -18,7 +18,7 @@ export default function Header() {
     <header>
       <nav className="h-[70px] px-[30px] py-[10px] flex justify-between items-center border-b">
         <div className="flex items-center justify-between gap-[50px]">
-          <Link href="/">
+          <Link href="/public">
             <div className="flex items-center gap-[10px]">
               <div className="overflow-hidden rounded">
                 <Image
@@ -32,7 +32,7 @@ export default function Header() {
             </div>
           </Link>
           <div className="flex gap-[40px]">
-            <Link href="/">
+            <Link href="/public">
               <h2 className="text-large">코인</h2>
             </Link>
             <Link href="/community">
