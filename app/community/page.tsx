@@ -7,6 +7,7 @@ import Link from 'next/link';
 interface CommunityDataType {
   _id: string | undefined;
   title: string;
+  content: string;
 }
 
 export default async function Page() {
@@ -47,10 +48,7 @@ export default async function Page() {
             </div>
 
             <div className="py-5">
-              <p className="text-sm text-gray-600">
-                제주도의 아름다운 풍경과 맛있는 음식들, 그리고 현지 주민들과의
-                따뜻한 만남까지...
-              </p>
+              <p className="text-sm text-gray-600">{item.content}</p>
             </div>
           </div>
         ))}

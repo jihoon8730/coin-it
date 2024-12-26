@@ -33,6 +33,7 @@ export default function WriteFrom() {
         'http://localhost:8080/api/community-write',
         data,
       );
+
       console.log(res);
     } catch (e) {
       console.log('e', e);
