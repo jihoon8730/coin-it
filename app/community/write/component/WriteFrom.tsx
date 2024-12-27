@@ -6,27 +6,24 @@ import { Button } from '@/components/ui/button';
 import SendIcon from '@/public/icons/SendIcon';
 import { useState } from 'react';
 import axios from 'axios';
-
-interface PostData {
-  title: string;
-  content: string;
-}
-
-interface ApiResponse {
-  message: string;
-  data?: {
-    title: string;
-    content: string;
-  };
-}
+import { ApiResponse, PostData } from '@/app/community/type';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
+import { useRouter } from 'next/navigation';
 
 export default function WriteFrom() {
+  const router = useRouter();
   const [title, setTitle] = useState<string>('');
   const [content, setContent] = useState<string>('');
+  const [categories, setCategories] = useState<string>('');
 
-  const handleSubmit = async () => {
-    const data: PostData = { title, content };
-    console.log(data);
+  const onClickSubmit = async () => {
+    const data: PostData = { title, content, categories };
 
     try {
       const res = await axios.post<ApiResponse>(
@@ -34,13 +31,24 @@ export default function WriteFrom() {
         data,
       );
 
+      if (res) {
+        // 커뮤니티 리스트로 이동
+        router.push('/community');
+      }
+
       console.log(res);
     } catch (e) {
       console.log('e', e);
     }
   };
 
-  console.log(title, content);
+  const onClickCancel = () => {
+    setCategories('');
+    setContent('');
+    setTitle('');
+    router.back();
+  };
+
   return (
     <div>
       <div className="flex flex-col gap-7">
@@ -51,6 +59,16 @@ export default function WriteFrom() {
             onChange={(e) => setTitle(e.target.value)}
           />
         </div>
+        <Select onValueChange={setCategories}>
+          <SelectTrigger>
+            <SelectValue placeholder="카테고리" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="daily">일상</SelectItem>
+            <SelectItem value="worry">고민</SelectItem>
+            <SelectItem value="cryptocurrencies">가상화폐</SelectItem>
+          </SelectContent>
+        </Select>
         <div className="flex flex-col gap-3">
           <p className="text-sm">내용</p>
           <Textarea
@@ -61,10 +79,10 @@ export default function WriteFrom() {
         </div>
       </div>
       <div className="flex gap-2 items-center justify-end mt-5">
-        <Button variant="outline" className="py-5">
+        <Button variant="outline" className="py-5" onClick={onClickCancel}>
           취소
         </Button>
-        <Button className="py-5" type="submit" onClick={handleSubmit}>
+        <Button className="py-5" type="submit" onClick={onClickSubmit}>
           <SendIcon />
           <p>게시하기</p>
         </Button>
