@@ -10,12 +10,21 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import Link from 'next/link';
+import LoginIcon from '@/public/icons/LoginIcon';
+import { usePathname } from 'next/navigation';
+import { cn } from '@/lib/utils';
 
 export default function Header() {
   const { setTheme } = useTheme();
+  const pathName = usePathname();
 
   return (
-    <div>
+    <div
+      className={cn(
+        'block',
+        pathName === '/login' || '/signup' ? 'hidden' : '',
+      )}
+    >
       <nav className="h-[70px] px-[30px] py-[10px] flex justify-between items-center border-b">
         <div className="flex items-center justify-between gap-[50px]">
           <Link href="/">
@@ -41,7 +50,7 @@ export default function Header() {
           </div>
         </div>
 
-        <div>
+        <div className="flex items-center gap-3">
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button variant="outline" size="icon">
@@ -62,6 +71,12 @@ export default function Header() {
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
+          <Link href={'/login'}>
+            <Button variant="outline" size="icon" className="w-auto px-4">
+              <LoginIcon />
+              <p>로그인</p>
+            </Button>
+          </Link>
         </div>
       </nav>
     </div>
