@@ -12,19 +12,17 @@ import {
 import Link from 'next/link';
 import LoginIcon from '@/public/icons/LoginIcon';
 import { usePathname } from 'next/navigation';
-import { cn } from '@/lib/utils';
 
 export default function Header() {
   const { setTheme } = useTheme();
   const pathName = usePathname();
 
+  if (pathName === '/login' || pathName === '/signup') {
+    return <></>;
+  }
+
   return (
-    <div
-      className={cn(
-        'block',
-        pathName === '/login' || '/signup' ? 'hidden' : '',
-      )}
-    >
+    <div>
       <nav className="h-[70px] px-[30px] py-[10px] flex justify-between items-center border-b">
         <div className="flex items-center justify-between gap-[50px]">
           <Link href="/">

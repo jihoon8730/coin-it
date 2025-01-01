@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import { ThemeProvider } from '@/provider/theme-provider';
 import Header from '@/components/Header';
 import './styles/globals.css';
+import { Toaster } from '@/components/ui/toaster';
 
 export const metadata: Metadata = {
   title: '코잇',
@@ -24,6 +25,7 @@ export default function RootLayout({
         >
           <Header />
           {children}
+          <Toaster />
         </ThemeProvider>
       </body>
     </html>

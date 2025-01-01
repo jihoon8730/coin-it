@@ -4,6 +4,7 @@ import React from 'react';
 import { CardContainer, CardBody, CardItem } from '@/components/ui/3d-card';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
+import { Input } from '@/components/ui/input';
 
 export function LoginCard() {
   return (
@@ -20,23 +21,16 @@ export function LoginCard() {
             이메일
           </CardItem>
           <CardItem translateZ="50" className="w-full">
-            <input
-              type="email"
-              placeholder="your@gmail.com"
-              className="w-full dark:bg-black border rounded-lg p-2"
-            />
+            <Input type="email" placeholder="your@gmail.com" />
           </CardItem>
         </div>
 
-        <div className="flex-col flex gap-2 mt-10">
+        <div className="flex-col flex gap-2 mt-5">
           <CardItem translateZ="50" className="text-sm">
             비밀번호
           </CardItem>
           <CardItem translateZ="50" className="w-full">
-            <input
-              type="password"
-              className="w-full dark:bg-black border rounded-lg p-2"
-            />
+            <Input type="password" />
           </CardItem>
         </div>
 
