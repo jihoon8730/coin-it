@@ -8,6 +8,7 @@ import axios from 'axios';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { useState } from 'react';
 import CheckIcon from '@/public/icons/CheckIcon';
+import process from 'node:process';
 
 type Inputs = {
   name: string;
@@ -89,8 +90,9 @@ export default function SignupCard() {
     };
 
     try {
+      const apiServer = process.env.NEXT_PUBLIC_API_SERVER;
       const result = await axios.post(
-        'http://localhost:8080/api/signup-duplication',
+        `${apiServer}/api/signup-duplication`,
         emailData,
       );
       console.log('onClickDuplicateCheck', result.data);
