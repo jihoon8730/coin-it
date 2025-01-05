@@ -5,17 +5,17 @@ import Link from 'next/link';
 import { CommunityDataType } from '@/app/community/type';
 import ListCard from '@/app/community/list/component/ListCard';
 import CategoryList from '@/app/community/list/component/CategoryList';
+import * as process from 'node:process';
 
 type SearchParams = Promise<{ [key: string]: string | string[] | undefined }>;
 
 export default async function Page(props: { searchParams: SearchParams }) {
+  const apiServer = process.env.NEXT_PUBLIC_API_SERVER;
   // Link로 전달한 searchParams를 받아옵니다.
   const searchParams = await props.searchParams;
   const { categories } = searchParams;
   const fetchCategories = categories ? `?categories=${categories}` : '';
-  const res = await fetch(
-    `http://localhost:8080/api/community-list${fetchCategories}`,
-  );
+  const res = await fetch(`${apiServer}/api/community-list${fetchCategories}`);
   const data: CommunityDataType[] = await res.json();
 
   return (
