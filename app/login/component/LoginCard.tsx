@@ -7,7 +7,6 @@ import Link from 'next/link';
 import { Input } from '@/components/ui/input';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import axios from 'axios';
-import process from 'node:process';
 
 type Inputs = {
   email: string;
@@ -23,6 +22,11 @@ export function LoginCard() {
   } = useForm<Inputs>();
 
   const onSubmitLogin: SubmitHandler<Inputs> = async (data) => {
+    const res = await axios.post(
+      `${process.env.NEXT_PUBLIC_API_SERVER}/api/login`,
+      data,
+    );
+    console.log('post success!', res);
     console.log(data);
   };
 
