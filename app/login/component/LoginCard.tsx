@@ -7,6 +7,8 @@ import Link from 'next/link';
 import { Input } from '@/components/ui/input';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import axios from 'axios';
+import { API_URL } from '@/lib/api';
+import { useRouter } from 'next/navigation';
 
 type Inputs = {
   email: string;
@@ -14,20 +16,33 @@ type Inputs = {
 };
 
 export function LoginCard() {
-  const {
-    register,
-    handleSubmit,
-    watch,
-    formState: { errors },
-  } = useForm<Inputs>();
+  const router = useRouter();
+  const { register, handleSubmit } = useForm<Inputs>();
 
   const onSubmitLogin: SubmitHandler<Inputs> = async (data) => {
-    const res = await axios.post(
-      `${process.env.NEXT_PUBLIC_API_SERVER}/api/login`,
-      data,
-    );
-    console.log('post success!', res);
     console.log(data);
+    try {
+      const res = await axios.post(`${API_URL}/api/login`, data);
+      if (res?.data.token) {
+        console.log('login success!', res.data.token);
+        // localStorage.setItem('token', res.data.token);
+        // protected
+        await axios
+          .get(`${API_URL}/api/protected`, {
+            headers: {
+              Authorization: `Bearer ${res.data.token}`,
+            },
+          })
+          .then((res) => {
+            console.log('protected:', res.data);
+          });
+        // router.push('/');
+      } else {
+        console.log('login failed!');
+      }
+    } catch (e) {
+      console.error('Error login:', e);
+    }
   };
 
   return (

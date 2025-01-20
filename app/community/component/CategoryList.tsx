@@ -1,13 +1,11 @@
 'use client';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
-import { useSearchParams } from 'next/navigation';
 import { cn } from '@/lib/utils';
+import { usePathname } from 'next/navigation';
 
 export default function CategoryList() {
-  const searchParams = useSearchParams();
-  const searchCategories = searchParams.get('categories');
-
+  const pathName = usePathname().split('/')[2];
   const categories = [
     {
       value: 'all',
@@ -26,21 +24,22 @@ export default function CategoryList() {
       name: '가상화폐',
     },
   ];
+
+  const hideWrite = pathName === 'write' ? 'hidden' : '';
+
   return (
-    <div className="flex flex-wrap gap-2">
+    <div className={cn('flex flex-wrap gap-2', hideWrite)}>
       {categories.map(({ value, name }) => (
         <Link
           key={value}
-          href={
-            value === 'all' ? '/community' : `/community?categories=${value}`
-          }
+          href={value === 'all' ? '/community' : `/community/${value}`}
         >
           <Button
             variant="outline"
             size="sm"
             className={cn(
               'rounded-full  hover:bg-blue-100 text-gray-700 hover:text-blue-800 transition-colors duration-300',
-              searchCategories === value && 'bg-blue-100 text-blue-800',
+              value && 'bg-blue-100 text-blue-800',
             )}
           >
             {name}
