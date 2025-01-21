@@ -12,9 +12,12 @@ import {
 import Link from 'next/link';
 import LoginIcon from '@/public/icons/LoginIcon';
 import { usePathname } from 'next/navigation';
+import { userStore } from '@/store/userStore';
 
 export default function Header() {
   const { setTheme } = useTheme();
+  const { isLogin, user } = userStore();
+  console.log('isLogin', isLogin, user);
   const pathName = usePathname();
 
   if (pathName === '/login' || pathName === '/signup') {

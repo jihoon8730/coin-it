@@ -9,6 +9,7 @@ import { SubmitHandler, useForm } from 'react-hook-form';
 import axios from 'axios';
 import { API_URL } from '@/lib/api';
 import { useRouter } from 'next/navigation';
+import Cookies from 'js-cookie';
 
 type Inputs = {
   email: string;
@@ -20,23 +21,18 @@ export function LoginCard() {
   const { register, handleSubmit } = useForm<Inputs>();
 
   const onSubmitLogin: SubmitHandler<Inputs> = async (data) => {
-    console.log(data);
     try {
       const res = await axios.post(`${API_URL}/api/login`, data);
       if (res?.data.token) {
-        console.log('login success!', res.data.token);
-        // localStorage.setItem('token', res.data.token);
+        Cookies.set('token', res.data.token, { expires: 7, secure: true });
         // protected
-        await axios
-          .get(`${API_URL}/api/protected`, {
-            headers: {
-              Authorization: `Bearer ${res.data.token}`,
-            },
-          })
-          .then((res) => {
-            console.log('protected:', res.data);
-          });
-        // router.push('/');
+        const protectedUser = await axios.get(`${API_URL}/api/protected`, {
+          headers: {
+            Authorization: `Bearer ${res.data.token}`,
+          },
+        });
+        console.log('protectedUser:', protectedUser.data);
+        router.push('/');
       } else {
         console.log('login failed!');
       }
