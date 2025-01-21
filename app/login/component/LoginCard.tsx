@@ -6,10 +6,8 @@ import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 import { Input } from '@/components/ui/input';
 import { SubmitHandler, useForm } from 'react-hook-form';
-import axios from 'axios';
-import { API_URL } from '@/lib/api';
 import { useRouter } from 'next/navigation';
-import Cookies from 'js-cookie';
+import { signIn } from 'next-auth/react';
 
 type Inputs = {
   email: string;
@@ -22,19 +20,17 @@ export function LoginCard() {
 
   const onSubmitLogin: SubmitHandler<Inputs> = async (data) => {
     try {
-      const res = await axios.post(`${API_URL}/api/login`, data);
-      if (res?.data.token) {
-        Cookies.set('token', res.data.token, { expires: 7, secure: true });
-        // protected
-        const protectedUser = await axios.get(`${API_URL}/api/protected`, {
-          headers: {
-            Authorization: `Bearer ${res.data.token}`,
-          },
-        });
-        console.log('protectedUser:', protectedUser.data);
+      const res = await signIn('credentials', {
+        redirect: false,
+        email: data.email,
+        password: data.password,
+      });
+
+      if (res?.ok) {
+        console.log('login success:', res);
         router.push('/');
       } else {
-        console.log('login failed!');
+        alert('로그인 실패!');
       }
     } catch (e) {
       console.error('Error login:', e);

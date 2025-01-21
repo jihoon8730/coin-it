@@ -3,6 +3,7 @@ import { ThemeProvider } from '@/provider/theme-provider';
 import Header from '@/components/Header';
 import './styles/globals.css';
 import { Toaster } from '@/components/ui/toaster';
+import AuthContext from '@/provider/AuthContext';
 
 export const metadata: Metadata = {
   title: '코잇',
@@ -23,9 +24,11 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          <Header />
-          {children}
-          <Toaster />
+          <AuthContext>
+            <Header />
+            {children}
+            <Toaster />
+          </AuthContext>
         </ThemeProvider>
       </body>
     </html>

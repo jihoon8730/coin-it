@@ -12,13 +12,14 @@ import {
 import Link from 'next/link';
 import LoginIcon from '@/public/icons/LoginIcon';
 import { usePathname } from 'next/navigation';
-import { userStore } from '@/store/userStore';
+import { useSession } from 'next-auth/react';
 
 export default function Header() {
   const { setTheme } = useTheme();
-  const { isLogin, user } = userStore();
-  console.log('isLogin', isLogin, user);
   const pathName = usePathname();
+  const { data: session, status } = useSession();
+
+  console.log('session', session, status);
 
   if (pathName === '/login' || pathName === '/signup') {
     return <></>;
