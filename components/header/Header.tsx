@@ -10,7 +10,6 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import Link from 'next/link';
-import LoginIcon from '@/public/icons/LoginIcon';
 import { usePathname } from 'next/navigation';
 import LoginComponent from '@/components/header/component/LoginComponent';
 
