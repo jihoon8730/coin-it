@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 import { ThemeProvider } from '@/provider/theme-provider';
-import Header from '@/components/Header';
+import Header from '@/components/header/Header';
 import './styles/globals.css';
 import { Toaster } from '@/components/ui/toaster';
 import AuthContext from '@/provider/AuthContext';

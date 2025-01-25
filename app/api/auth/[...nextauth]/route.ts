@@ -1,4 +1,4 @@
-import NextAuth, { RequestInternal } from 'next-auth';
+import NextAuth from 'next-auth';
 import CredentialsProvider from 'next-auth/providers/credentials';
 import axios from 'axios';
 import { API_URL } from '@/lib/api';
@@ -32,9 +32,6 @@ export const authOptions = {
       },
     }),
   ],
-  pages: {
-    signIn: '/login', // 사용자 정의 로그인 페이지
-  },
 };
 
 const handler = NextAuth(authOptions);

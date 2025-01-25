@@ -15,30 +15,43 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import { useRouter } from 'next/navigation';
+import { useSession } from 'next-auth/react';
 
 export default function WriteFrom() {
+  const { data: session } = useSession();
+  console.log('session', session);
   const router = useRouter();
   const [title, setTitle] = useState<string>('');
   const [content, setContent] = useState<string>('');
   const [categories, setCategories] = useState<string>('');
 
   const onClickSubmit = async () => {
-    const data: PostData = { title, content, categories };
-
     try {
-      const res = await axios.post<ApiResponse>(
-        'http://localhost:8080/api/community-write',
-        data,
-      );
+      if (session?.user) {
+        const { email, name, image } = session.user;
+        const data: PostData = {
+          email,
+          name,
+          avatar: image,
+          title,
+          content,
+          categories,
+        };
 
-      if (res) {
-        // 커뮤니티 리스트로 이동
-        router.push('/community');
+        const res = await axios.post<ApiResponse>(
+          'http://localhost:8080/api/community-write',
+          data,
+        );
+
+        if (res) {
+          // 커뮤니티 리스트로 이동
+          router.push('/community');
+        }
+
+        console.log(res);
       }
-
-      console.log(res);
     } catch (e) {
-      console.log('e', e);
+      console.error('Error creating post:', e);
     }
   };
 

@@ -12,17 +12,14 @@ import {
 import Link from 'next/link';
 import LoginIcon from '@/public/icons/LoginIcon';
 import { usePathname } from 'next/navigation';
-import { useSession } from 'next-auth/react';
+import LoginComponent from '@/components/header/component/LoginComponent';
 
 export default function Header() {
   const { setTheme } = useTheme();
   const pathName = usePathname();
-  const { data: session, status } = useSession();
-
-  console.log('session', session, status);
 
   if (pathName === '/login' || pathName === '/signup') {
-    return <></>;
+    return null;
   }
 
   return (
@@ -53,6 +50,7 @@ export default function Header() {
         </div>
 
         <div className="flex items-center gap-3">
+          <LoginComponent />
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button variant="outline" size="icon">
@@ -73,12 +71,6 @@ export default function Header() {
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
-          <Link href={'/login'}>
-            <Button variant="outline" size="icon" className="w-auto px-4">
-              <LoginIcon />
-              <p>로그인</p>
-            </Button>
-          </Link>
         </div>
       </nav>
     </div>

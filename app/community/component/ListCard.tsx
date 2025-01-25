@@ -1,5 +1,6 @@
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { CommunityDataType } from '@/app/community/type';
+import { dateFormater } from '@/lib/utils';
 
 export default function ListCard({ item }: { item: CommunityDataType }) {
   return (
@@ -14,7 +15,9 @@ export default function ListCard({ item }: { item: CommunityDataType }) {
         </Avatar>
         <div>
           <h2 className="text-xl font-bold">{item.title}</h2>
-          <p className="text-sm text-muted-foreground">여행자 2024-12-28</p>
+          <p className="text-sm text-muted-foreground">
+            {item.name} {dateFormater(item.createAt)}
+          </p>
         </div>
       </div>
 
