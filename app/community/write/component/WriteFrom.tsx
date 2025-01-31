@@ -19,7 +19,6 @@ import { useSession } from 'next-auth/react';
 
 export default function WriteFrom() {
   const { data: session } = useSession();
-  console.log('session', session);
   const router = useRouter();
   const [title, setTitle] = useState<string>('');
   const [content, setContent] = useState<string>('');

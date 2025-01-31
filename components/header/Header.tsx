@@ -40,7 +40,7 @@ export default function Header() {
           </Link>
           <div className="flex gap-[40px]">
             <Link href="/">
-              <h2 className="text-large">코인</h2>
+              <h2 className="text-large">가상화폐</h2>
             </Link>
             <Link href="/community">
               <h2 className="text-large">커뮤니티</h2>

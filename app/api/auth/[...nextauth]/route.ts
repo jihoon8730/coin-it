@@ -32,6 +32,12 @@ export const authOptions = {
       },
     }),
   ],
+  session: {
+    maxAge: 60 * 60 * 24 * 30, // 세션 만료시간 Default 30일
+  },
+  pages: {
+    signIn: '/login',
+  },
 };
 
 const handler = NextAuth(authOptions);
