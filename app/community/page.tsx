@@ -1,6 +1,7 @@
 import { CommunityDataType } from '@/app/community/type';
 import ListCard from '@/app/community/component/ListCard';
 import { API_URL } from '@/lib/api';
+import SearchIcon from '@/public/icons/SearchIcon';
 
 export default async function Page({
   searchParams,
@@ -17,10 +18,20 @@ export default async function Page({
   const data: CommunityDataType[] = await res.json();
 
   return (
-    <div className="flex flex-col mt-5">
-      {data.map((item) => (
-        <ListCard key={item._id} item={item} />
-      ))}
-    </div>
+    <>
+      <div className="border-b border-gray-200 py-3">
+        {data.length === 0 && (
+          <div className="flex items-center justify-center gap-2">
+            <SearchIcon className="size-14 stroke-gray-300" />
+            <p className="text-large text-gray-300">검색 결과가 없습니다</p>
+          </div>
+        )}
+      </div>
+      <div className="flex flex-col mt-5">
+        {data.map((item) => (
+          <ListCard key={item._id} item={item} />
+        ))}
+      </div>
+    </>
   );
 }

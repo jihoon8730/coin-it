@@ -5,7 +5,8 @@ import { cn } from '@/lib/utils';
 import { usePathname } from 'next/navigation';
 
 export default function CategoryList() {
-  const pathName = usePathname().split('/')[2];
+  const pathName = usePathname().split('/')[2] || 'all';
+
   const categories = [
     {
       value: 'all',
@@ -27,6 +28,10 @@ export default function CategoryList() {
 
   const hideWrite = pathName === 'write' ? 'hidden' : '';
 
+  const handleActiveColor = (value: string) => {
+    return pathName === value ? 'bg-blue-100 text-blue-800' : '';
+  };
+
   return (
     <div className={cn('flex flex-wrap gap-2', hideWrite)}>
       {categories.map(({ value, name }) => (
@@ -38,8 +43,8 @@ export default function CategoryList() {
             variant="outline"
             size="sm"
             className={cn(
-              'rounded-full  hover:bg-blue-100 text-gray-700 hover:text-blue-800 transition-colors duration-300',
-              value && 'bg-blue-100 text-blue-800',
+              'rounded-full hover:bg-blue-100 text-gray-700 hover:text-blue-800 transition-colors duration-300',
+              handleActiveColor(value),
             )}
           >
             {name}
