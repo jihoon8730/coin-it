@@ -19,12 +19,14 @@ export const authOptions = {
           email: credentials?.email,
           password: credentials?.password,
         });
+
+        // 로그인 성공 시 next-auth 에서는 기본적으로 email, name, image 만 반환 해줌
         if (res?.data.token) {
           return {
-            id: res.data.id,
+            id: res.data.id, // 반환 하지 않음
             email: res.data.email,
             name: res.data.name,
-            image: '',
+            image: res.data.image,
           };
         } else {
           return null;
@@ -34,9 +36,6 @@ export const authOptions = {
   ],
   session: {
     maxAge: 60 * 60 * 24 * 30, // 세션 만료시간 Default 30일
-  },
-  pages: {
-    signIn: '/login',
   },
 };
 

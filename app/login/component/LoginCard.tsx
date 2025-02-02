@@ -27,7 +27,6 @@ export function LoginCard() {
       });
 
       if (res?.ok) {
-        console.log('login success:', res);
         router.push('/');
       } else {
         alert('로그인 실패!');
@@ -89,7 +88,7 @@ export function LoginCard() {
               href="/signup"
               className="text-sm text-blue-600 hover:underline"
             >
-              회원가입
+              간편회원가입
             </CardItem>
           </div>
         </CardBody>

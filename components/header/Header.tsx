@@ -1,5 +1,4 @@
 'use client';
-import Image from 'next/image';
 import { Moon, Sun } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useTheme } from 'next-themes';
@@ -10,32 +9,18 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import Link from 'next/link';
-import { usePathname } from 'next/navigation';
 import LoginComponent from '@/components/header/component/LoginComponent';
 
 export default function Header() {
   const { setTheme } = useTheme();
-  const pathName = usePathname();
-
-  if (pathName === '/login' || pathName === '/signup') {
-    return null;
-  }
 
   return (
     <div>
       <nav className="h-[70px] px-[30px] py-[10px] flex justify-between items-center border-b">
         <div className="flex items-center justify-between gap-[50px]">
           <Link href="/">
-            <div className="flex items-center gap-[10px]">
-              <div className="overflow-hidden rounded">
-                <Image
-                  src="/assets/images/coin-it-logo.webp"
-                  alt="Coin It Logo"
-                  width={35}
-                  height={35}
-                />
-              </div>
-              <h1 className="text-large">Coin-it</h1>
+            <div>
+              <h1 className="text-large text-blue-600">C O I T</h1>
             </div>
           </Link>
           <div className="flex gap-[40px]">

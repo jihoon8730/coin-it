@@ -28,6 +28,7 @@ export default function WriteFrom() {
     try {
       if (session?.user) {
         const { email, name, image } = session.user;
+        console.log(session.user);
         const data: PostData = {
           email,
           name,

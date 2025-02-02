@@ -6,9 +6,10 @@ import { useToast } from '@/hooks/use-toast';
 import { ToastAction } from '@/components/ui/toast';
 import axios from 'axios';
 import { useForm, SubmitHandler } from 'react-hook-form';
-import { useState } from 'react';
+import React, { useState } from 'react';
 import CheckIcon from '@/public/icons/CheckIcon';
 import { API_URL } from '@/lib/api';
+import SignupDialog from '@/app/signup/component/SignupDialog';
 
 type Inputs = {
   name: string;
@@ -20,6 +21,7 @@ type Inputs = {
 
 export default function SignupCard() {
   const { toast } = useToast();
+  const [dialogOpen, setDialogOpen] = useState(false);
 
   const {
     register,
@@ -39,6 +41,7 @@ export default function SignupCard() {
       email: data.email,
       password: data.password,
     });
+    setDialogOpen(true);
   };
 
   const handleValidation = async () => {
@@ -119,112 +122,115 @@ export default function SignupCard() {
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmitSignup)}>
-      <CardContainer className="inter-var">
-        <CardBody className="bg-white group/card dark:hover:shadow-2xl dark:hover:shadow-emerald-500/[0.1] dark:bg-black dark:border-white/[0.2] border-black/[0.1] w-auto sm:w-[30rem] h-auto rounded-xl p-6 border flex flex-col justify-center">
-          <CardItem
-            translateZ="50"
-            className="text-xl font-bold text-neutral-600 dark:text-white  w-full text-center"
-          >
-            회원가입
-          </CardItem>
-          <div className="flex-col flex gap-2 mt-10">
-            <CardItem translateZ="50" className="text-sm">
-              이름
-            </CardItem>
-            <CardItem translateZ="50" className="w-full">
-              <Input
-                type="text"
-                placeholder="ex) 홍길동"
-                {...register('name', { required: true, pattern: nameRegex })}
-              />
-            </CardItem>
-          </div>
-          <div className="flex-col flex gap-2 mt-5">
+    <div>
+      <form onSubmit={handleSubmit(onSubmitSignup)}>
+        <CardContainer className="inter-var">
+          <CardBody className="bg-white group/card dark:hover:shadow-2xl dark:hover:shadow-emerald-500/[0.1] dark:bg-black dark:border-white/[0.2] border-black/[0.1] w-auto sm:w-[30rem] h-auto rounded-xl p-6 border flex flex-col justify-center">
             <CardItem
               translateZ="50"
-              className="text-sm flex gap-2 items-center"
-            >
-              <p>이메일</p>
-              {duplicateCheck && (
-                <CheckIcon className="w-4 h-4 text-emerald-500" />
-              )}
-            </CardItem>
-            <CardItem translateZ="50" className="w-full flex gap-3">
-              <Input
-                type="email"
-                placeholder="ex) your@gmail.com"
-                {...register('email', {
-                  required: true,
-                  pattern: emailRegex,
-                })}
-                disabled={duplicateCheck}
-              />
-              <Button
-                onClick={onClickDuplicateCheck}
-                disabled={duplicateCheck || !watch('email')}
-              >
-                중복확인
-              </Button>
-            </CardItem>
-          </div>
-          <div className="flex-col flex gap-2 mt-5">
-            <CardItem translateZ="50" className="text-sm">
-              비밀번호
-            </CardItem>
-            <CardItem translateZ="50" className="w-full">
-              <Input
-                type="password"
-                {...register('password', {
-                  required: true,
-                  pattern: passwordRegex,
-                })}
-                disabled={!duplicateCheck}
-              />
-            </CardItem>
-          </div>
-          <div className="flex-col flex gap-2 mt-5">
-            <CardItem translateZ="50" className="text-sm">
-              비밀번호 확인
-            </CardItem>
-            <CardItem translateZ="50" className="w-full">
-              <Input
-                type="password"
-                {...register('passwordConfirm', {
-                  required: true,
-                  validate: (value) => value === watch('password'),
-                })}
-                disabled={!duplicateCheck}
-              />
-            </CardItem>
-          </div>
-          <CardItem translateZ="50" className="flex items-center gap-1 mt-5">
-            <Input
-              type="checkbox"
-              id="policy"
-              {...register('policy', { required: true })}
-              className="w-4 h-4"
-              disabled={!duplicateCheck}
-            />
-            <label
-              htmlFor="policy"
-              className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-            >
-              <span>이용약관에 동의합니다</span>
-            </label>
-          </CardItem>
-          <CardItem translateZ="50" className="w-full mt-5">
-            <Button
-              type="submit"
-              className="w-full"
-              variant="default"
-              onClick={handleValidation}
+              className="text-xl font-bold text-neutral-600 dark:text-white  w-full text-center"
             >
               회원가입
-            </Button>
-          </CardItem>
-        </CardBody>
-      </CardContainer>
-    </form>
+            </CardItem>
+            <div className="flex-col flex gap-2 mt-10">
+              <CardItem translateZ="50" className="text-sm">
+                이름
+              </CardItem>
+              <CardItem translateZ="50" className="w-full">
+                <Input
+                  type="text"
+                  placeholder="ex) 홍길동"
+                  {...register('name', { required: true, pattern: nameRegex })}
+                />
+              </CardItem>
+            </div>
+            <div className="flex-col flex gap-2 mt-5">
+              <CardItem
+                translateZ="50"
+                className="text-sm flex gap-2 items-center"
+              >
+                <p>이메일</p>
+                {duplicateCheck && (
+                  <CheckIcon className="w-4 h-4 text-emerald-500" />
+                )}
+              </CardItem>
+              <CardItem translateZ="50" className="w-full flex gap-3">
+                <Input
+                  type="email"
+                  placeholder="ex) your@gmail.com"
+                  {...register('email', {
+                    required: true,
+                    pattern: emailRegex,
+                  })}
+                  disabled={duplicateCheck}
+                />
+                <Button
+                  onClick={onClickDuplicateCheck}
+                  disabled={duplicateCheck || !watch('email')}
+                >
+                  중복확인
+                </Button>
+              </CardItem>
+            </div>
+            <div className="flex-col flex gap-2 mt-5">
+              <CardItem translateZ="50" className="text-sm">
+                비밀번호
+              </CardItem>
+              <CardItem translateZ="50" className="w-full">
+                <Input
+                  type="password"
+                  {...register('password', {
+                    required: true,
+                    pattern: passwordRegex,
+                  })}
+                  disabled={!duplicateCheck}
+                />
+              </CardItem>
+            </div>
+            <div className="flex-col flex gap-2 mt-5">
+              <CardItem translateZ="50" className="text-sm">
+                비밀번호 확인
+              </CardItem>
+              <CardItem translateZ="50" className="w-full">
+                <Input
+                  type="password"
+                  {...register('passwordConfirm', {
+                    required: true,
+                    validate: (value) => value === watch('password'),
+                  })}
+                  disabled={!duplicateCheck}
+                />
+              </CardItem>
+            </div>
+            <CardItem translateZ="50" className="flex items-center gap-1 mt-5">
+              <Input
+                type="checkbox"
+                id="policy"
+                {...register('policy', { required: true })}
+                className="w-4 h-4"
+                disabled={!duplicateCheck}
+              />
+              <label
+                htmlFor="policy"
+                className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+              >
+                <span>이용약관에 동의합니다</span>
+              </label>
+            </CardItem>
+            <CardItem translateZ="50" className="w-full mt-5">
+              <Button
+                type="submit"
+                className="w-full"
+                variant="default"
+                onClick={handleValidation}
+              >
+                회원가입
+              </Button>
+            </CardItem>
+          </CardBody>
+        </CardContainer>
+      </form>
+      <SignupDialog dialogOpen={dialogOpen} setDialogOpen={setDialogOpen} />
+    </div>
   );
 }

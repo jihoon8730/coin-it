@@ -36,7 +36,7 @@ export default function InputHeader() {
       <form className="w-4/12" onSubmit={handleSubmit(onSubmit)}>
         <Input
           className="rounded-full"
-          placeholder="제목 + 내용 검색"
+          placeholder="제목 검색..."
           {...register('search')}
         />
       </form>
