@@ -3,15 +3,10 @@ import { Button } from '@/components/ui/button';
 import LoginIcon from '@/public/icons/LoginIcon';
 import { useSession, signOut } from 'next-auth/react';
 import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar';
-import { Skeleton } from '@/components/ui/skeleton';
 import UserIcon from '@/public/icons/UserIcon';
 
 export default function LoginComponent() {
   const { data: session } = useSession();
-
-  if (!session?.user) {
-    return <Skeleton className="w-[200px] h-[20px] rounded-full" />;
-  }
 
   return (
     <div>

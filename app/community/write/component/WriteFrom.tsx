@@ -16,6 +16,7 @@ import {
 } from '@/components/ui/select';
 import { useRouter } from 'next/navigation';
 import { useSession } from 'next-auth/react';
+import { FileUpload } from '@/components/ui/file-upload';
 
 export default function WriteFrom() {
   const { data: session } = useSession();
@@ -24,19 +25,27 @@ export default function WriteFrom() {
   const [content, setContent] = useState<string>('');
   const [categories, setCategories] = useState<string>('');
 
+  const [files, setFiles] = useState<File[]>([]);
+  const handleFileUpload = (files: File[]) => {
+    setFiles(files);
+    // console.log(files);
+  };
+
   const onClickSubmit = async () => {
     try {
       if (session?.user) {
         const { email, name, image } = session.user;
-        console.log(session.user);
         const data: PostData = {
           email,
           name,
           avatar: image,
+          uploadImg: files,
           title,
           content,
           categories,
         };
+
+        console.log(data);
 
         const res = await axios.post<ApiResponse>(
           'http://localhost:8080/api/community-write',
@@ -48,7 +57,7 @@ export default function WriteFrom() {
           router.push('/community');
         }
 
-        console.log(res);
+        // console.log(res);
       }
     } catch (e) {
       console.error('Error creating post:', e);
@@ -89,6 +98,9 @@ export default function WriteFrom() {
             placeholder="게시글 내용을 입력하세요"
             onChange={(e) => setContent(e.target.value)}
           />
+        </div>
+        <div className="w-full max-w-4xl mx-auto min-h-96 border border-dashed bg-white dark:bg-black border-neutral-200 dark:border-neutral-800 rounded-lg">
+          <FileUpload onChange={handleFileUpload} />
         </div>
       </div>
       <div className="flex gap-2 items-center justify-end mt-5">
