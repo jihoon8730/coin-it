@@ -16,7 +16,7 @@ export interface PostData {
   title: string;
   content: string;
   categories: string;
-  uploadImg: File[];
+  uploadImg: string;
 }
 
 export interface ApiResponse {

@@ -17,6 +17,7 @@ import {
 import { useRouter } from 'next/navigation';
 import { useSession } from 'next-auth/react';
 import { FileUpload } from '@/components/ui/file-upload';
+import { API_URL } from '@/lib/api';
 
 export default function WriteFrom() {
   const { data: session } = useSession();
@@ -24,11 +25,25 @@ export default function WriteFrom() {
   const [title, setTitle] = useState<string>('');
   const [content, setContent] = useState<string>('');
   const [categories, setCategories] = useState<string>('');
+  const [uploadImg, setUploadImg] = useState<string>('');
 
-  const [files, setFiles] = useState<File[]>([]);
-  const handleFileUpload = (files: File[]) => {
-    setFiles(files);
-    // console.log(files);
+  const handleFileUpload = async (files: File[]) => {
+    try {
+      const formData = new FormData();
+      formData.append('uploadImg', files[0]);
+      const { data: imgUrl } = await axios.post(
+        `${API_URL}/api/community-upload`,
+        formData,
+        {
+          headers: {
+            'Content-Type': 'multipart/form-data',
+          },
+        },
+      );
+      setUploadImg(imgUrl);
+    } catch (e) {
+      console.error('Error uploading image:', e);
+    }
   };
 
   const onClickSubmit = async () => {
@@ -39,16 +54,14 @@ export default function WriteFrom() {
           email,
           name,
           avatar: image,
-          uploadImg: files,
+          uploadImg: uploadImg,
           title,
           content,
           categories,
         };
 
-        console.log(data);
-
         const res = await axios.post<ApiResponse>(
-          'http://localhost:8080/api/community-write',
+          `${API_URL}/api/community-write`,
           data,
         );
 
