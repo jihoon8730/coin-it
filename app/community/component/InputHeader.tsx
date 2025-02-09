@@ -6,6 +6,7 @@ import AddIcon from '@/public/icons/AddIcon';
 import { usePathname, useRouter } from 'next/navigation';
 import { cn } from '@/lib/utils';
 import { useForm, SubmitHandler } from 'react-hook-form';
+import { useSession } from 'next-auth/react';
 
 type Inputs = {
   search: string;
@@ -15,6 +16,7 @@ export default function InputHeader() {
   const pathName = usePathname().split('/')[2];
   const hideWrite = pathName === 'write' ? 'hidden' : '';
   const router = useRouter();
+  const { data: session } = useSession();
 
   const {
     register,
@@ -31,6 +33,14 @@ export default function InputHeader() {
     router.push(`/community?search=${data.search}`);
     reset();
   };
+
+  const handleIsLogin = () => {
+    if (!session) {
+      router.push('/login');
+    } else {
+      router.push('/community/write');
+    }
+  };
   return (
     <div className={cn('mt-10 flex justify-between items-center', hideWrite)}>
       <form className="w-4/12" onSubmit={handleSubmit(onSubmit)}>
@@ -41,12 +51,10 @@ export default function InputHeader() {
         />
       </form>
 
-      <Link href="/community/write">
-        <Button className="rounded-full p-5">
-          <AddIcon />
-          <p>새 게시글</p>
-        </Button>
-      </Link>
+      <Button className="rounded-full p-5" onClick={handleIsLogin}>
+        <AddIcon />
+        <p>새 게시글</p>
+      </Button>
     </div>
   );
 }

@@ -14,6 +14,14 @@ const nextConfig: NextConfig = {
     });
     return config;
   },
+  images: {
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'coit1.s3.ap-northeast-2.amazonaws.com',
+      },
+    ],
+  },
 };
 
 export default nextConfig;

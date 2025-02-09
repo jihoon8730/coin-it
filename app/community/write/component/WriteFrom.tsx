@@ -18,6 +18,7 @@ import { useRouter } from 'next/navigation';
 import { useSession } from 'next-auth/react';
 import { FileUpload } from '@/components/ui/file-upload';
 import { API_URL } from '@/lib/api';
+import Image from 'next/image';
 
 export default function WriteFrom() {
   const { data: session } = useSession();
@@ -112,9 +113,20 @@ export default function WriteFrom() {
             onChange={(e) => setContent(e.target.value)}
           />
         </div>
-        <div className="w-full max-w-4xl mx-auto min-h-96 border border-dashed bg-white dark:bg-black border-neutral-200 dark:border-neutral-800 rounded-lg">
-          <FileUpload onChange={handleFileUpload} />
-        </div>
+        {uploadImg && (
+          <Image
+            src={uploadImg}
+            alt="upload image"
+            width={500}
+            height={500}
+            style={{
+              width: 'auto',
+              height: 'auto',
+            }}
+          />
+        )}
+
+        <FileUpload onChange={handleFileUpload} />
       </div>
       <div className="flex gap-2 items-center justify-end mt-5">
         <Button variant="outline" className="py-5" onClick={onClickCancel}>

@@ -7,6 +7,7 @@ export interface CommunityDataType {
   content: string;
   categories: string;
   createAt: number;
+  uploadImg: string;
 }
 
 export interface PostData {

@@ -4,6 +4,7 @@ import Header from '@/components/header/Header';
 import './styles/globals.css';
 import { Toaster } from '@/components/ui/toaster';
 import AuthContext from '@/provider/AuthContext';
+import TanStackProvider from '@/provider/TanStackProvider';
 
 export const metadata: Metadata = {
   title: '코잇',
@@ -18,18 +19,20 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body>
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="system"
-          enableSystem
-          disableTransitionOnChange
-        >
-          <AuthContext>
-            <Header />
-            {children}
-            <Toaster />
-          </AuthContext>
-        </ThemeProvider>
+        <TanStackProvider>
+          <ThemeProvider
+            attribute="class"
+            defaultTheme="system"
+            enableSystem
+            disableTransitionOnChange
+          >
+            <AuthContext>
+              <Header />
+              {children}
+              <Toaster />
+            </AuthContext>
+          </ThemeProvider>
+        </TanStackProvider>
       </body>
     </html>
   );
